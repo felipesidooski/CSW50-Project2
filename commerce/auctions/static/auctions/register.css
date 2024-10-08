@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link {
+    font-size: 0.9rem;
+    color: #343a40;
+}
+
+.navbar-brand h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.navbar-nav {
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.message {
+    background-color: #070be73f;
+    color: #ffffff;
+    border: 1px solid #9dedfc;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+}
+
