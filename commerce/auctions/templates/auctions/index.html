@@ -1,7 +1,44 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
-
-    TODO
+    <h2 class="text-center mb-4">Active Listings</h2>
+    {% for category, listing_chunks in listings_by_category.items %}  
+        <div class="container mt-5">
+            <div class="category-section mb-5">
+                <h3 class="text-center my-4">{{ category }}</h3>
+                <div id="carousel-{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for listing_chunk in listing_chunks %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="d-flex justify-content-start flex-nowrap">
+                                    {% for listing in listing_chunk %}
+                                        <div class="card shadow-sm m-2" style="width: 18rem;">
+                                            <div class="card-img-top-container" style="height: 200px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                                <img src="{{ listing.image_url }}" alt="Listing image" class="card-img-top" style="width: 100%; height: auto; object-fit: contain;">
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">{{ listing.title }}</h5>
+                                                <p class="card-text">Starting Bid: ${{ listing.starting_bid }}</p>
+                                                <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary">Make a Bid →</a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ forloop.counter }}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ forloop.counter }}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <br/>
+    {% endfor %}
 {% endblock %}

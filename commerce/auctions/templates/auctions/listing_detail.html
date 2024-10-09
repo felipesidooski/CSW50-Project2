@@ -1,0 +1,65 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if message %}
+        <div class="alert alert-warning text-center">{{ message }}</div>
+    {% endif %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Título e Imagem do Listing -->
+                <div class="text-center mb-4">
+                    <h2>{{ listing.title }}</h2>
+                    <img src="{{ listing.image_url }}" alt="Listing image" class="img-fluid" style="max-height: 400px; object-fit: contain;">
+                </div>
+
+                <!-- Data de criação do listing -->
+                <div class="text-center mb-4">
+                    <p class="text-muted">Created on: {{ listing.created_at|date:"F j, Y" }}</p>
+                </div>
+
+                <!-- Descrição -->
+                <div class="mb-4">
+                    <p>{{ listing.description }}</p>
+                    <p><strong>Initial Price:</strong> ${{ listing.starting_bid }}</p>
+                </div>
+
+                <!-- Formulário de Lance -->
+                <div class="card p-4 mb-4">
+                    <h3>Place a Bid:</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input type="number" name="bid_amount" step="0.01" class="form-control" id="bid_amount" placeholder="Enter your bid" required>
+                            <label for="bid_amount">Enter your bid (USD)</label>
+                        </div>
+                        <button type="submit" name="place_bid" class="btn btn-primary w-100">Place a Bid</button>
+                    </form>
+                </div>
+
+                <!-- Comentários -->
+                <div class="card p-4 mb-4">
+                    <h3>Comments:</h3>
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="mb-3">
+                                <p>{{ comment.comment_text }} - <small>by {{ comment.commenter.username }} - {{ comment.created_at|date:"F j, Y, g:i a" }}</small></p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No comments yet. Be the first to comment!</p>
+                    {% endif %}
+                    <h4>Make a comment:</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            {{ comment_form.comment_text }}
+                            <label for="{{ comment_form.comment_text.id_for_label }}">Add a comment</label>
+                        </div>
+                        <button type="submit" name="add_comment" class="btn btn-primary w-100">Add Comment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
