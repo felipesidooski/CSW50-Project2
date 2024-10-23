@@ -10,6 +10,9 @@ class ListingForm(forms.ModelForm):
         labels = {
             'starting_bid': 'Valor Inicial (USD)',
         }
+        widgets = {
+            'category': forms.Select(attrs={'id': 'id_category'})
+        }
 
 class BidForm(forms.ModelForm):
     class Meta:

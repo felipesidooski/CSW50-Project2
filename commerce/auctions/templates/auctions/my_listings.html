@@ -1,0 +1,37 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">My Listings</h2>
+
+    {% if listings %}
+        <div class="row">
+            {% for listing in listings %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="{{ listing.image_url }}" class="card-img-top" alt="{{ listing.title }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <p class="card-text">{{ listing.description }}</p>
+                            <p><strong>Starting Bid:</strong> ${{ listing.starting_bid }}</p>
+
+                            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary w-100">View Listing</a>
+
+                            {% if not listing.is_active %}
+                                <form method="post" class="mt-2">
+                                    {% csrf_token %}
+                                    <button type="submit" name="activate_listing_{{ listing.id }}" class="btn btn-success w-100">
+                                        Activate Listing
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">You have no listings.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -4,21 +4,28 @@ from django.db import models
 class User(AbstractUser):
     pass
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    def __str__(self):
+        return self.name.capitalize()  # Apresentação com a primeira letra maiúscula
+
+
 class AuctionListing(models.Model):
-    CATEGORY_CHOICES = [
-        ('wand', 'Wand'),
-        ('cauldron', 'Cauldron'),
-        ('brooms', 'Brooms'),
-        ('cloak', 'Cloak'),
-        ('action_figure', 'Action Figure'),
-        ('funko_pop', 'Funko Pop'),
-        ('rare_item', 'Rare Item')
-    ]
+    # CATEGORY_CHOICES = [
+    #     ('wand', 'Wand'),
+    #     ('cauldron', 'Cauldron'),
+    #     ('brooms', 'Brooms'),
+    #     ('cloak', 'Cloak'),
+    #     ('action_figure', 'Action Figure'),
+    #     ('funko_pop', 'Funko Pop'),
+    #     ('rare_item', 'Rare Item')
+    # ]
     title = models.CharField(max_length=100)
     description = models.TextField()
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2, help_text="Valor em dólares (USD).")
-    image_url = models.URLField(blank=True, null=True)
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, blank=True)
+    image_url = models.URLField(max_length=500, blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)

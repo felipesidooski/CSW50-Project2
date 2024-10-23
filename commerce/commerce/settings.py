@@ -84,6 +84,10 @@ DATABASES = {
 AUTH_USER_MODEL = 'auctions.User'
 DATE_INPUT_FORMATS = ['%dd/%mm/%YYYY']
 
+
+#Login URL:
+LOGIN_URL = '/login'
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 

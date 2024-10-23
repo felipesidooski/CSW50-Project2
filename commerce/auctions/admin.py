@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AuctionListing, Bid, Comment, User
+from .models import AuctionListing, Bid, Comment, User, Category
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 class AuctionListingAdmin(admin.ModelAdmin):
@@ -16,6 +16,11 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('listing', 'commenter', 'created_at')
     list_filter = ('listing', 'commenter')
     search_fields = ('listing__title', 'commenter__username', 'comment_text')
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    list_filter = ('name',)
+    search_fields = ('name',)
 
 class CustomUserAdmin(BaseUserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
@@ -41,3 +46,4 @@ admin.site.register(AuctionListing, AuctionListingAdmin)
 admin.site.register(Bid, BidAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Category, CategoryAdmin)

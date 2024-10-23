@@ -37,6 +37,16 @@
                     </form>
                 </div>
 
+                <!-- Se o usuário é o criador, exibir o botão para desativar a listagem -->
+                {% if is_owner %}
+                    <div class="card p-4 mb-4">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="deactivate_listing" class="btn btn-danger w-100">Deactivate Listing</button>
+                        </form>
+                    </div>
+                {% endif %}
+
                 <!-- Comentários -->
                 <div class="card p-4 mb-4">
                     <h3>Comments:</h3>
