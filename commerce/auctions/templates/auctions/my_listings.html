@@ -1,9 +1,8 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+<h2 class="text-center mb-4">My Listings</h2>
 <div class="container mt-5">
-    <h2 class="text-center mb-4">My Listings</h2>
-
     {% if listings %}
         <div class="row">
             {% for listing in listings %}

@@ -1,0 +1,35 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2 class="text-center mb-4">My Bids</h2>
+
+{% if grouped_bids %}
+    <div class="container mt-5">
+        {% for group in grouped_bids %}
+            <div class="row">
+                {% for bid in group %}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="{{ bid.listing.image_url }}" class="card-img-top" 
+                                 alt="{{ bid.listing.title }}" 
+                                 style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ bid.listing.title }}</h5>
+                                <p class="card-text">{{ bid.listing.description|truncatewords:10 }}</p>
+                                <p><strong>Your Bid:</strong> ${{ bid.bid_amount }}</p>
+                                <p><strong>Starting Bid:</strong> ${{ bid.listing.starting_bid }}</p>
+                                <a href="{% url 'listing_detail' bid.listing.id %}" 
+                                   class="btn btn-primary w-100">View Listing</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="container mt-5">
+        <p class="text-center">You haven't placed any bids yet.</p>
+    </div>
+{% endif %}
+{% endblock %}
