@@ -15,10 +15,12 @@ body {
     text-align: center;
 }
 
-
 .card {
+    width: 100%;
+    max-width: 650px;  /*Aumente a largura máxima do card */
+    min-width: 250px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin: 10px 0;
+    margin: 10px auto; /* Centraliza o card */
 }
 
 .card:hover {
@@ -28,13 +30,14 @@ body {
 
 .card .card-img-top {
     width: 100%;
-    height: 200px;
+    height: 250px;
     object-fit: cover;
     border-radius: 5px 5px 0 0;
 }
 
 .card-body {
     padding: 15px;
+    text-align: center;
 }
 
 .card textarea {
@@ -69,7 +72,7 @@ body {
 
 /* Estilo para a imagem do carrossel */
 .card-img-top-container {
-    height: 200px;
+    height: 250px;
     overflow: hidden;
     display: flex;
     justify-content: center;

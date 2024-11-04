@@ -2,20 +2,19 @@
 
 {% block body %}
 <h2 class="text-center mb-4">My Listings</h2>
-<div class="container mt-5">
-    {% if listings %}
-        <div class="row">
+
+{% if listings %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
             {% for listing in listings %}
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-stretch justify-content-center">
                     <div class="card mb-4">
-                        <img src="{{ listing.image_url }}" class="card-img-top" alt="{{ listing.title }}" style="height: 200px; object-fit: cover;">
+                        <img src="{{ listing.image_url }}" class="card-img-top" alt="{{ listing.title }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ listing.title }}</h5>
-                            <p class="card-text">{{ listing.description }}</p>
+                            <p class="card-text">{{ listing.description|truncatewords:10 }}</p>
                             <p><strong>Starting Bid:</strong> ${{ listing.starting_bid }}</p>
-
                             <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary w-100">View Listing</a>
-
                             {% if not listing.is_active %}
                                 <form method="post" class="mt-2">
                                     {% csrf_token %}
@@ -29,8 +28,10 @@
                 </div>
             {% endfor %}
         </div>
-    {% else %}
-        <p class="text-center">You have no listings.</p>
-    {% endif %}
-</div>
+    </div>
+{% else %}
+    <div class="container mt-5">
+        <p class="text-center">You have no listings yet.</p>
+    </div>
+{% endif %}
 {% endblock %}
