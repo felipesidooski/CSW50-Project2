@@ -7,9 +7,10 @@
     <div class="container mt-5">
         <div class="row">
             {% for item in watchlist_items %}
-                <div class="col-md-4">
+                <div class="col-md-4 d-flex align-items-stretch">
                     <div class="card mb-4">
-                        <img src="{{ item.listing.image_url }}" class="card-img-top" alt="{{ item.listing.title }}" style="height: 200px; object-fit: cover;">
+                        <img src="{{ item.listing.image_url }}" class="card-img-top" 
+                             alt="{{ item.listing.title }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ item.listing.title }}</h5>
                             <p class="card-text">{{ item.listing.description|truncatewords:10 }}</p>

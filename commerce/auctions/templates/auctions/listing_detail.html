@@ -10,15 +10,24 @@
 
                 {% if not in_watchlist %}
                     <div class="text-center mb-4" style="position: relative;">
-                        <form id="watchlist-form" method="post" style="position: absolute; top: 10px; right: 10px;">
+                        <form method="post" style="position: absolute; right: 10px; bottom: 1px; margin-bottom: 5px;">
                             {% csrf_token %}
                             <input type="hidden" name="add_to_watchlist" value="{{ listing.id }}">
-                            <button type="submit" class="btn btn-sm btn-warning">
+                            <button type="submit" class="btn btn-sm btn-success">
                                 Add to Watchlist
                             </button>
                         </form>
                     </div>
-                    <br/>
+                {% else %}
+                    <div class="text-center mb-4" style="position: relative;">
+                        <form method="post" style="position: absolute; right: 10px; bottom: 1px; margin-bottom: 5px;">
+                            {% csrf_token %}
+                            <input type="hidden" name="remove_from_watchlist" value="{{ listing.id }}">
+                            <button type="submit" class="btn btn-sm btn-warning">
+                                Remove from Watchlist
+                            </button>
+                        </form>
+                    </div>
                 {% endif %}
 
                 <div class="text-center mb-4">
@@ -93,7 +102,7 @@
                     <div class="card p-4 mb-4">
                         <form method="post">
                             {% csrf_token %}
-                            <button type="submit" name="deactivate_listing" class="btn btn-danger w-100">Deactivate Listing</button>
+                            <button type="submit" name="deactivate_listing" class="btn btn-danger w-100">Close Listing</button>
                         </form>
                     </div>
                 {% endif %}

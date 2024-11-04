@@ -57,9 +57,42 @@
                 </div>
             </div>
         </nav>
-        <div style="margin-top: 80px;">
+        
+        <div style="margin-top: 60px;">
+            {% if messages %}
+                <div id="message-container">
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class="alert alert-danger text-center">
+                        {% elif message.tags == 'warning' %}
+                            <div class="alert alert-warning text-center">
+                        {% elif message.tags == 'success' %}
+                            <div class="alert alert-success text-center">
+                        {% elif message.tags == 'info' %}
+                            <div class="alert alert-info text-center">
+                        {% else %}
+                            <div class="alert alert-secondary text-center">
+                        {% endif %}
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
             {% block body %}
             {% endblock %}
         </div>
+        <script>
+            // Remove message after 3 seconds
+            setTimeout(function() {
+                var messageContainer = document.getElementById('message-container');
+                if (messageContainer) {
+                    messageContainer.style.transition = "opacity 0.5s ease";
+                    messageContainer.style.opacity = "0";  // Fade out effect
+                    setTimeout(function() {
+                        messageContainer.remove();
+                    }, 500);  // Remove element after fade out
+                }
+            }, 3000);
+        </script>
     </body>
 </html>

@@ -42,3 +42,12 @@ body {
     max-width: 400px;
 }
 
+#image {
+    width: 100%;
+    min-width: 200px;
+    max-width: 300px; /* Limita a largura máxima da imagem */
+    min-height: 200px;
+    max-height: 300px; /* Limita a altura máxima da imagem */
+    object-fit: cover; /* Cobre o espaço mantendo a proporção */
+    border-radius: 5px; /* Adiciona bordas arredondadas */
+}

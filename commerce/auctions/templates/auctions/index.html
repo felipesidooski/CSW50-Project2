@@ -1,10 +1,24 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2 class="text-center mb-4">Listings</h2>
-    {% for category, listing_chunks in listings_by_category.items %}  
-        <div class="container mt-5">
-            <div class="category-section mb-5">
+    <div class="container mt-5">
+        <div class="page-title">
+            <h1>Listings</h1>
+        </div>
+        <div class="category-filter">
+            <label for="categorySelect" class="form-label">Filter by Category:</label>
+            <select id="categorySelect" class="form-select form-select-lg">
+                <option value="all" selected>All Categories</option>
+                {% for category, listing_chunks in listings_by_category.items %}
+                    <option value="category-{{ forloop.counter }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    {% for category, listing_chunks in listings_by_category.items %}
+        <div class="container mt-5 category-section mb-5" id="category-{{ forloop.counter }}">
+            <div class="card carousel-card"> <!-- Card que envolve o carrossel -->
                 <h3 class="text-center my-4">{{ category }}</h3>
                 <div id="carousel-{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -13,8 +27,8 @@
                                 <div class="d-flex justify-content-start flex-nowrap">
                                     {% for listing in listing_chunk %}
                                         <div class="card shadow-sm m-2" style="width: 18rem;">
-                                            <div class="card-img-top-container" style="height: 200px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
-                                                <img src="{{ listing.image_url }}" alt="Listing image" class="card-img-top" style="width: 100%; height: auto; object-fit: contain;">
+                                            <div class="card-img-top-container">
+                                                <img src="{{ listing.image_url }}" alt="Listing image" class="card-img-top">
                                             </div>
                                             <div class="card-body text-center">
                                                 <h5 class="card-title">{{ listing.title }}</h5>
@@ -37,8 +51,23 @@
                     </button>
                 </div>
             </div>
-            <hr>
         </div>
-        <br/>
     {% endfor %}
+
+    <script>
+        document.getElementById("categorySelect").addEventListener("change", function() {
+            var selectedCategory = this.value;
+            var categorySections = document.querySelectorAll(".category-section");
+
+            categorySections.forEach(function(section) {
+                if (selectedCategory === "all") {
+                    section.style.display = "block"; // Exibe todas as seções
+                } else if (section.id === selectedCategory) {
+                    section.style.display = "block"; // Exibe a seção selecionada
+                } else {
+                    section.style.display = "none"; // Oculta outras seções
+                }
+            });
+        });
+    </script>
 {% endblock %}

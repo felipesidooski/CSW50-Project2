@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AuctionListing, Bid, Comment, User, Category
+from .models import AuctionListing, Bid, Comment, User, Category, Watchlist
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 class AuctionListingAdmin(admin.ModelAdmin):
@@ -22,6 +22,13 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('name',)
     search_fields = ('name',)
 
+
+class WatchListAdmin(BaseUserAdmin):
+    list_display = ('creator__username', 'listing')
+    list_filter = ('creator__username', 'listing')
+    search_fields = ('creator__username' , 'listing')
+
+
 class CustomUserAdmin(BaseUserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active')
@@ -41,9 +48,11 @@ class CustomUserAdmin(BaseUserAdmin):
         ),
     )
 
+
 # Registrando os modelos no admin do Django
 admin.site.register(AuctionListing, AuctionListingAdmin)
 admin.site.register(Bid, BidAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Watchlist)  

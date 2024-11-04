@@ -113,6 +113,20 @@ def listing_detail(request, listing_id):
             listing.save()
             messages.success(request, "Listing successfully deactivated.")
             return redirect('index')
+        elif 'add_to_watchlist' in request.POST:
+            # Adicionar o item à watchlist do usuário
+            _, created = Watchlist.objects.get_or_create(user=request.user, listing=listing)
+            if created:
+                messages.success(request, "Element added to your watchlist.")
+            else:
+                messages.warning(request, "This item is already in your watchlist.")
+            return redirect('listing_detail', listing_id=listing_id)
+        elif 'remove_from_watchlist' in request.POST:
+            watchlist_item = get_object_or_404(Watchlist, user=request.user, listing=listing)
+            watchlist_item.delete()
+            messages.warning(request, "Element removed from your watchlist.")
+            return redirect('listing_detail', listing_id=listing_id)
+
 
     return render(request, 'auctions/listing_detail.html', {
         'listing': listing,
@@ -125,6 +139,7 @@ def listing_detail(request, listing_id):
         'highest_bidder': highest_bidder,
         'in_watchlist': in_watchlist  # Passar essa variável para o template
     })
+
 
 @login_required
 def add_to_watchlist(request, listing_id):
@@ -142,8 +157,9 @@ def add_to_watchlist(request, listing_id):
 def remove_from_watchlist(request, listing_id):
     watchlist_item = get_object_or_404(Watchlist, user=request.user, listing_id=listing_id)
     watchlist_item.delete()
-    messages.success(request, "Element removed from your watchlist.")
-    return redirect('view_watchlist')
+    messages.warning(request, "Element removed from your watchlist.")
+    return redirect('listing_detail', listing_id=listing_id)
+
 
 @login_required
 def view_watchlist(request):
