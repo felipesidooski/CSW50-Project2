@@ -9,46 +9,36 @@
             <label for="categorySelect" class="form-label">Filter by Category:</label>
             <select id="categorySelect" class="form-select form-select-lg">
                 <option value="all" selected>All Categories</option>
-                {% for category, listing_chunks in listings_by_category.items %}
+                {% for category, listings in listings_by_category.items %}
                     <option value="category-{{ forloop.counter }}">{{ category }}</option>
                 {% endfor %}
             </select>
         </div>
     </div>
 
-    {% for category, listing_chunks in listings_by_category.items %}
+    {% for category, listings in listings_by_category.items %}
         <div class="container mt-5 category-section mb-5" id="category-{{ forloop.counter }}">
-            <div class="card carousel-card"> <!-- Card que envolve o carrossel -->
+            <div class="card active-card">
                 <h3 class="text-center my-4">{{ category }}</h3>
-                <div id="carousel-{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% for listing_chunk in listing_chunks %}
-                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <div class="d-flex justify-content-start flex-nowrap">
-                                    {% for listing in listing_chunk %}
-                                        <div class="card shadow-sm m-2" style="width: 18rem;">
-                                            <div class="card-img-top-container">
-                                                <img src="{{ listing.image_url }}" alt="Listing image" class="card-img-top">
-                                            </div>
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">{{ listing.title }}</h5>
-                                                <p class="card-text">Starting Bid: ${{ listing.starting_bid }}</p>
-                                                <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary">Detail →</a>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for listing in listings %}
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <div class="card-img-top-container">
+                                    {% if listing.image_url %}
+                                        <img src="{{ listing.image_url }}" alt="Listing image" class="card-img-top">
+                                    {% else %}
+                                        <p class="text-muted">Image not available</p>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ listing.title }}</h5>
+                                    <p class="card-text">Starting Bid: ${{ listing.starting_bid }}</p>
+                                    <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary">Detail →</a>
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ forloop.counter }}" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ forloop.counter }}" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -61,11 +51,11 @@
 
             categorySections.forEach(function(section) {
                 if (selectedCategory === "all") {
-                    section.style.display = "block"; // Exibe todas as seções
+                    section.style.display = "block";
                 } else if (section.id === selectedCategory) {
-                    section.style.display = "block"; // Exibe a seção selecionada
+                    section.style.display = "block";
                 } else {
-                    section.style.display = "none"; // Oculta outras seções
+                    section.style.display = "none";
                 }
             });
         });

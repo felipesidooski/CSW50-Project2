@@ -11,17 +11,15 @@ from .forms import ListingForm, BidForm, CommentForm
 def index(request):
     listings = AuctionListing.objects.filter(is_active=True)
     listings_by_category = {}
+    
     # Agrupar os leilões por categoria
     for listing in listings:
-        category = listing.category
+        category = listing.category.name if listing.category else "Uncategorized"
         if category not in listings_by_category:
             listings_by_category[category] = []
         listings_by_category[category].append(listing)
-    listings_by_category_chunks = {
-        category: [listings[i:i+4] for i in range(0, len(listings), 4)]
-        for category, listings in listings_by_category.items()
-    }
-    context = {'listings_by_category': listings_by_category_chunks}
+
+    context = {'listings_by_category': listings_by_category}
     return render(request, 'auctions/index.html', context)
 
 @login_required
